@@ -136,9 +136,9 @@ export default function FontCard({ font }: FontCardProps) {
         </div>
 
         {/* Editable preview label */}
-        <div style={{ fontSize: '0.68rem', color: 'var(--muted)', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px', pointerEvents: 'none' }}>
-          <Type size={10} />
-          <span>✎ click anywhere here to edit</span>
+        <div style={{ fontSize: '0.68rem', color: 'var(--muted)', marginTop: '4px' }}>
+          <Type size={10} style={{ display: 'inline', marginRight: '4px' }} />
+          click to edit preview
         </div>
 
         {/* Invisible editable overlay */}
@@ -154,9 +154,8 @@ export default function FontCard({ font }: FontCardProps) {
             cursor: 'text',
             width: '100%',
             height: '100%',
-            zIndex: 1,
           }}
-          title="Click anywhere in this area to type preview text"
+          title="Click to type preview text"
         />
       </div>
 
