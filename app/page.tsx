@@ -647,7 +647,7 @@ export default function Home() {
                       border: '1px solid var(--border-bright)',
                       borderRadius: '10px',
                       padding: '6px',
-                      zIndex: 1000,
+                      zIndex: 50,
                       minWidth: '160px',
                       boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
                       animation: 'fadeIn 0.15s ease-out',
@@ -784,7 +784,7 @@ export default function Home() {
           fontFamily: 'var(--font-mono)',
         }}
       >
-        FontSnatch · Open source · <a href="https://shakilxvs.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--muted)', textDecoration: 'none' }}>@shakilxvs</a>
+        FontSnatch · Open source · Built with Next.js & Vercel
       </footer>
     </div>
   );
