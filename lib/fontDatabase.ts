@@ -137,7 +137,7 @@ export const FONT_DATABASE: Record<string, FontMeta> = {
   'EB Garamond': {
     foundry: 'Georg Duffner',
     category: 'serif',
-    description: 'Revival of Claude Garamond's 16th-century typeface',
+    description: "Revival of Claude Garamond's 16th-century typeface",
   },
   'Cormorant Garamond': {
     foundry: 'Christian Thalmann',
