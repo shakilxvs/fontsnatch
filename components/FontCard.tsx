@@ -40,6 +40,24 @@ export default function FontCard({ font }: FontCardProps) {
   const [previewText, setPreviewText] = useState('Aa Bb 123');
   const linkRef = useRef<HTMLLinkElement | null>(null);
 
+  // Resolve the effective font family string for preview rendering
+  const previewFontFamily = (() => {
+    if (font.source === 'google' || font.source === 'bunny') {
+      return `'${font.name}', sans-serif`;
+    }
+    if (font.source === 'system') {
+      return font.name;
+    }
+    // Custom / self-hosted: use the CSS variable or font name directly.
+    // CSS variable names (var(--font-xxx)) are used as-is so the browser
+    // resolves them if the variable happens to be defined. Plain font names
+    // are wrapped in quotes so the browser can attempt a match.
+    if (font.name.startsWith('var(')) {
+      return font.name;
+    }
+    return `'${font.name}', sans-serif`;
+  })();
+
   // Dynamically load Google/Bunny fonts for preview
   useEffect(() => {
     if (font.source !== 'google' && font.source !== 'bunny') {
@@ -119,44 +137,57 @@ export default function FontCard({ font }: FontCardProps) {
         className="relative px-6 pt-7 pb-5"
         style={{ borderBottom: '1px solid var(--border)' }}
       >
-        <div
-          className="preview-text mb-1"
-          style={{
-            fontFamily:
-              font.source === 'google' || font.source === 'bunny'
-                ? `'${font.name}', sans-serif`
-                : font.source === 'system'
-                ? font.name
-                : `var(--font-epilogue)`,
-            opacity: fontLoaded ? 1 : 0.3,
-            transition: 'opacity 0.4s',
-          }}
-        >
-          {previewText}
-        </div>
+        {font.source === 'custom' && font.name.startsWith('var(') ? (
+          /* CSS-variable font: can't be loaded cross-origin, show a clear message */
+          <div style={{ minHeight: '48px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '6px' }}>
+            <div
+              className="preview-text mb-1"
+              style={{ fontFamily: previewFontFamily, opacity: 0.25, transition: 'opacity 0.4s' }}
+            >
+              {previewText}
+            </div>
+            <div style={{ fontSize: '0.68rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Type size={10} style={{ display: 'inline', flexShrink: 0 }} />
+              Self-hosted — preview unavailable
+            </div>
+          </div>
+        ) : (
+          <>
+            <div
+              className="preview-text mb-1"
+              style={{
+                fontFamily: previewFontFamily,
+                opacity: fontLoaded ? 1 : 0.3,
+                transition: 'opacity 0.4s',
+              }}
+            >
+              {previewText}
+            </div>
 
-        {/* Editable preview label */}
-        <div style={{ fontSize: '0.68rem', color: 'var(--muted)', marginTop: '4px' }}>
-          <Type size={10} style={{ display: 'inline', marginRight: '4px' }} />
-          click to edit preview
-        </div>
+            {/* Editable preview label */}
+            <div style={{ fontSize: '0.68rem', color: 'var(--muted)', marginTop: '4px' }}>
+              <Type size={10} style={{ display: 'inline', marginRight: '4px' }} />
+              click to edit preview
+            </div>
 
-        {/* Invisible editable overlay */}
-        <input
-          type="text"
-          value={previewText}
-          onChange={(e) => setPreviewText(e.target.value)}
-          maxLength={24}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            opacity: 0,
-            cursor: 'text',
-            width: '100%',
-            height: '100%',
-          }}
-          title="Click to type preview text"
-        />
+            {/* Invisible editable overlay */}
+            <input
+              type="text"
+              value={previewText}
+              onChange={(e) => setPreviewText(e.target.value)}
+              maxLength={24}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0,
+                cursor: 'text',
+                width: '100%',
+                height: '100%',
+              }}
+              title="Click to type preview text"
+            />
+          </>
+        )}
       </div>
 
       {/* Info Area */}
