@@ -404,7 +404,7 @@ export function enrichFont(name: string, source: 'google' | 'adobe' | 'bunny' | 
     return {
       foundry: meta?.foundry ?? 'Adobe Fonts',
       category: meta?.category ?? ('sans-serif' as const),
-      license: (meta?.license ?? 'paid') as const,
+      license: (meta?.license ?? 'paid') as FontLicense,
       description: meta?.description ?? 'Served via Adobe Fonts (Typekit) — requires Creative Cloud subscription',
       downloadUrl: undefined,
       purchaseUrl: meta?.purchaseUrl ?? 'https://fonts.adobe.com',
@@ -426,7 +426,7 @@ export function enrichFont(name: string, source: 'google' | 'adobe' | 'bunny' | 
   return {
     foundry: meta?.foundry ?? 'Custom / Self-hosted',
     category: meta?.category ?? ('unknown' as const),
-    license: (meta?.license ?? 'unknown') as const,
+    license: (meta?.license ?? 'unknown') as FontLicense,
     description: meta?.description ?? 'Self-hosted custom font',
     downloadUrl: meta?.downloadUrl,
     purchaseUrl: meta?.purchaseUrl,
