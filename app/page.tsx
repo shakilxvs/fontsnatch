@@ -559,6 +559,8 @@ export default function Home() {
               marginBottom: '28px',
               paddingBottom: '20px',
               borderBottom: '1px solid var(--border)',
+              position: 'relative',
+              zIndex: 20,
             }}
           >
             <div>
